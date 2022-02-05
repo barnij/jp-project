@@ -37,39 +37,6 @@ type command =
 (* ---------------------------------------------------------------------- *)
 (* Context management *)
 
-let emptycontext = []
-
-let ctxlength ctx = List.length ctx
-
-let addbinding ctx x = x::ctx
-
-let addname ctx x = addbinding ctx x
-
-let rec isnamebound ctx x =
-  match ctx with
-    | [] -> false
-    | y::rest ->
-        if y=x then true
-        else isnamebound rest x
-
-let rec pickfreshname ctx x =
-  if isnamebound ctx x then pickfreshname ctx (x^"'")
-  else (x::ctx), x
-
-let index2name fi ctx x =
-  try
-    let xn = List.nth ctx x in
-    xn with 
-    | Failure _ -> let msg = Printf.sprintf "Variable lookup failure: offset: %d, ctx size: %d" in
-      failwith (msg x (List.length ctx))
-
-let rec name2index fi ctx x =
-  match ctx with
-      [] -> failwith ("Identifier " ^ x ^ " is unbound")
-    | y::rest ->
-        if y=x then 0
-        else 1 + (name2index fi rest x)
-
 (* ---------------------------------------------------------------------- *)
 (* Shifting *)
 

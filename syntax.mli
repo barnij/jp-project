@@ -29,22 +29,7 @@ type term =
   | TmTail of term
   | TmIsNil of term
 
-type binding = VarBind
-
-type command =
-  | Eval of term
-  | Bind of string * binding
-
 (* Contexts *)
-type context
-val emptycontext : context 
-val ctxlength : context -> int
-val addbinding : context -> string -> binding -> context
-val addname: context -> string -> context
-val index2name : context -> int -> string
-val getbinding : context -> int -> binding
-val name2index : context -> string -> int
-val isnamebound : context -> string -> bool
 
 (* Shifting and substitution *)
 

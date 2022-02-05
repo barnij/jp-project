@@ -1,0 +1,13 @@
+*.cmo
+*.cmi
+f
+test.f
+main
+lexer
+lexer.ml
+lexer.mli
+parser.ml
+parser.mli
+parser.automaton
+parser.conflicts
+parser.output
