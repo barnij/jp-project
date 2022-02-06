@@ -13,7 +13,7 @@ Wykonane elementy w projekcie: lekser, parser, normalizacja termów, implementac
 ```
 Program `main` bez argumentów pobiera znaki do interpretera ze standardowego wejścia.
 
-Podając JEDEN argument - ścieżkę do pliku - program odczyta zapisany w nim term i uruchomi normalizację.
+Podając JEDEN argument - ścieżkę do pliku - program odczyta, zapisany w nim term i uruchomi normalizację.
 
 Podając DWA argumenty - ścieżki do plików - program odczyta z nich termy i sprawdzi ich Beta-równownoważność.
 
