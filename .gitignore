@@ -2,6 +2,7 @@
 *.cmi
 f
 test.f
+test1.f
 main
 lexer
 lexer.ml
@@ -11,3 +12,4 @@ parser.mli
 parser.automaton
 parser.conflicts
 parser.output
+result.txt

@@ -98,7 +98,6 @@ let rec eval_normal_foo (t: term) (e: mvalue env) =
 let eval_normal (t: term) =
   eval_normal_foo t []
 
-
 let rec compare_terms t1 t2 =
   match t1, t2 with
   | TmApp(t1', t1''), TmApp(t2', t2'') -> compare_terms t1' t2' && compare_terms t1'' t2''
@@ -106,6 +105,3 @@ let rec compare_terms t1 t2 =
   | TmVar _, TmVar _ -> true
   | TmVarI(n1), TmVarI(n2) when n1=n2 -> true
   | _ -> false
-
-
-

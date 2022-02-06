@@ -55,6 +55,7 @@ let main () =
     then Some(open_in Sys.argv.(2))
     else None
   in
+  let cout = open_out "result.txt" in
   let lexbuf = Lexing.from_channel cin in
     let raw_res = try Parser.toplevel Lexer.main lexbuf
     with Parsing.Parse_error -> print_string "Parse error"; failwith "Parser error" in
@@ -66,7 +67,8 @@ let main () =
       ps "raw: "; pretty_printer raw_res; pc '\n';
       ps "wihout sugar: "; pretty_printer desugar_res; pc '\n';
       ps "new indexes: ";pretty_printer res; pc '\n';
-      ps "result: "; pretty_printer wt1; pc '\n'
+      ps "result: "; pretty_printer wt1; pc '\n';
+      output_string cout (pretty_printer_string wt1)
     | Some(cin2) ->
       let lexbuf2 = Lexing.from_channel cin2 in
       let raw_res2 = try Parser.toplevel Lexer.main lexbuf2
@@ -75,7 +77,7 @@ let main () =
       ps "result 1: "; pretty_printer wt1 ; pc '\n';
       ps "result 2: "; pretty_printer wt2 ; pc '\n';
       if compare_terms wt1 wt2 then
-        ps "terms are Beta-equal\n"
-      else ps "terms are different\n"
+        (ps "terms are Beta-equal\n"; output_string cout "true")
+      else (ps "terms are different\n"; output_string cout "false")
 
 let _ = main ()

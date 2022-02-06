@@ -43,6 +43,33 @@ let rec pretty_printer (t: term) = match t with
   | TmTail(t1)         -> ps "(tail "; pretty_printer t1; pc ')'
   | TmIsNil(t1)         -> ps "(isnil "; pretty_printer t1; pc ')'
 
+let pretty_printer_string (t: term) =   
+  let rec foo t =
+    match t with
+    | TmVar(s)          -> s
+    | TmVarI(n)         -> string_of_int n
+    | TmAbs(x, t1)      -> "(λ"^x^"." ^ (foo  t1) ^ ")"
+    | TmAbsI(t1)        -> "(λ." ^ foo t1 ^ ")"
+    | TmApp(t1, t2)     -> "(" ^ (foo t1) ^ " " ^ (foo t2) ^ ")"
+    | TmNum(n)          -> string_of_int n
+    | TmAdd(t1, t2)     -> "(add " ^ (foo t1) ^ " " ^ (foo t2) ^ ")";
+    | TmMul(t1, t2)     -> "(mul " ^ (foo t1) ^ " " ^ (foo t2) ^ ")";
+    | TmSub(t1, t2)     -> "(sub " ^ (foo t1) ^ " " ^ (foo t2) ^ ")";
+    | TmEq(t1, t2)      -> "(eq " ^ (foo t1) ^ " " ^ (foo t2) ^ ")";
+    | TmTrue            -> "true"
+    | TmFalse           -> "false"
+    | TmIf(t1, t2, t3)  -> "(if " ^ (foo t1) ^ " then " ^ (foo t2) ^ " else " ^ (foo t3) ^ ")"
+    | TmPair(t1, t2)    -> "(" ^ (foo t1) ^ "," ^ (foo t2) ^ ")"
+    | TmFix(t1)         -> "(fix " ^ (foo t1) ^ ")"
+    | TmFst(t1)         -> "(fst " ^ (foo t1) ^ ")"
+    | TmSnd(t1)         -> "(snd " ^ (foo t1) ^ ")"
+    | TmNil             -> "nil"
+    | TmCons(t1, t2)    -> "(cons " ^ (foo t1) ^ " " ^ (foo t2) ^ ")"
+    | TmHead(t1)        -> "(head " ^ (foo t1) ^ ")"
+    | TmTail(t1)        -> "(tail " ^ (foo t1) ^ ")"
+    | TmIsNil(t1)       -> "(isnil " ^ (foo t1) ^ ")"
+  in foo t 
+
 let rec print_env (v: mvalue) =
 let Clo(t, e) = v in
   pretty_printer t; print_env_list e; ps ", "
