@@ -20,12 +20,12 @@ let rec remove_sugar (t: term) : term = match t with
                         (remove_sugar t1) (remove_sugar t2) (remove_sugar t3)
   | TmFix(t1) -> app_helper1 fix (remove_sugar t1)
   | TmPair(t1, t2) -> app_helper2 pair (remove_sugar t1) (remove_sugar t2)
-  | TmFst(t1) -> app_helper1 pair_fst (remove_sugar t1)
-  | TmSnd(t1) -> app_helper1 pair_snd (remove_sugar t1)
+  | TmFst(t1) -> app_helper1 (remove_sugar t1) pair_fst
+  | TmSnd(t1) -> app_helper1 (remove_sugar t1) pair_snd
   | TmNil -> cnil
   | TmCons(t1, t2) -> app_helper2 ccons (remove_sugar t1) (remove_sugar t2)
-  | TmHead(t1) -> app_helper1 chead (remove_sugar t1)
-  | TmTail(t1) -> app_helper1 ctail (remove_sugar t1)
+  | TmHead(t1) -> app_helper1 (remove_sugar t1) chead
+  | TmTail(t1) -> app_helper1 (remove_sugar t1) ctail
   | TmIsNil(t1) -> app_helper1 isnil (remove_sugar t1)
   | _ -> t
 
@@ -68,16 +68,18 @@ let main () =
       ps "wihout sugar: "; pretty_printer desugar_res; pc '\n';
       ps "new indexes: ";pretty_printer res; pc '\n';
       ps "result: "; pretty_printer wt1; pc '\n';
-      output_string cout (pretty_printer_string wt1)
+      output_string cout ((pretty_printer_string wt1)^"\n")
     | Some(cin2) ->
       let lexbuf2 = Lexing.from_channel cin2 in
       let raw_res2 = try Parser.toplevel Lexer.main lexbuf2
         with Parsing.Parse_error -> print_string "Parse error2"; failwith "Parser error2"
       in let wt2 = eval_normal (remove_names (remove_sugar raw_res2)) in
+      ps "term 1:"; pretty_printer raw_res; pc '\n';
       ps "result 1: "; pretty_printer wt1 ; pc '\n';
+      ps "term 2:"; pretty_printer raw_res2; pc '\n';
       ps "result 2: "; pretty_printer wt2 ; pc '\n';
       if compare_terms wt1 wt2 then
-        (ps "terms are Beta-equal\n"; output_string cout "true")
-      else (ps "terms are different\n"; output_string cout "false")
+        (ps "terms are Beta-equal\n"; output_string cout "true\n")
+      else (ps "terms are different\n"; output_string cout "false\n")
 
 let _ = main ()

@@ -1,0 +1,1 @@
+(lambda x. (lambda y. x) (lambda z. x)) (cons 1 (cons (pair 1 2) nil))

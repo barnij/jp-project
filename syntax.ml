@@ -172,7 +172,7 @@ let app_helper1 f x = TmApp(f, x)
 let app_helper2 f x y = TmApp(TmApp(f, x), y)
 let app_helper3 f x y z = TmApp(TmApp(TmApp(f, x), y), z)
 
-let cnil = czero
+let cnil = TmAbs("x", ctrue)
 let ccons = 
   TmAbs("h", TmAbs("t", TmAbs("f",
     TmApp(
@@ -182,7 +182,12 @@ let ccons =
   )))
 let chead = pair_fst
 let ctail = pair_snd
-let isnil = iszero
+let isnil = TmAbs("l",
+              TmApp(
+                TmVar("l"),
+                TmAbs("h", TmAbs("t", cfalse))
+              )
+            )
 
 (* ---------------------------------------------------------------------- *)
 (* Printing *)

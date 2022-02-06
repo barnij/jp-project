@@ -1,0 +1,1 @@
+(fix (lambda f. lambda n. if (eq n 0) then 1 else (mul n (f (sub n 1)))) 5)

@@ -1,0 +1,2 @@
+fix (lambda f. lambda xs. if (isnil xs) then 0 else (add (head xs) (f (tail xs)))) 
+(cons 1 (cons 2(cons 3(cons 4 nil))))
