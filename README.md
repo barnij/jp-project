@@ -2,7 +2,7 @@
 Bartosz Jaśkiewicz, 307893
 
 ### Zakres wykonanej pracy
-Wykonane elementy w projekcie: lekser, parser, normalizacja termów, implementacja rachunku lambda jako języka programowania, sprawdzanie Beta-równości w naiwny sposób, odczytywania i wypisywanie do plików
+Wykonane elementy w projekcie: lekser, parser, normalizacja termów, implementacja rachunku lambda jako języka programowania, sprawdzanie Beta-równości w naiwny sposób, odczytywanie i wypisywanie do plików.
 
 ## Uruchomienie
 ```sh
@@ -11,13 +11,13 @@ Wykonane elementy w projekcie: lekser, parser, normalizacja termów, implementac
 ```sh
     ./main
 ```
-Program `main` bez argumentów pobiera znaki do interpretera ze standordowego wejścia.
+Program `main` bez argumentów pobiera znaki do interpretera ze standardowego wejścia.
 
-Podając JEDEN argument - ścieżkę do pliku - program uruchomi normalizację.
+Podając JEDEN argument - ścieżkę do pliku - program odczyta zapisany w nim term i uruchomi normalizację.
 
 Podając DWA argumenty - ścieżki do plików - program odczyta z nich termy i sprawdzi ich Beta-równownoważność.
 
-Wynik zostanie umieszczony w pliku `result.txt`, a dodatkowe informacje na standardowe wyjście.
+W każdym przypadku, wynik zostanie umieszczony w pliku `result.txt`, a dodatkowe informacje na standardowe wyjście.
 
 ### Czyszczenie plików
 ```
@@ -35,7 +35,7 @@ Uruchom testy z dodatkowymi informacjami:
 ```
 
 ## Składnia języka
-W języku obowiązują termy zdefiniowane jako *e* w opisie zadania projektu. Polecane jest nawiasowanie termów. Term **λ** może zostać słowem **lambda**.
+W języku obowiązują termy zdefiniowane jako *e* w opisie zadania projektu. Polecane jest nawiasowanie termów. Term **λ** może zostać zastąpiony słowem **lambda**.
 
 ---
 2022
