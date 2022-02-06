@@ -41,10 +41,6 @@ main.exe: $(OBJS) main.cmo
 	@echo Linking $@
 	ocamlc -o $@ $(COMMONOBJS) $(OBJS) 
 
-# Build and test
-test: all
-	./f test.f
-
 # Compile an ML module interface
 %.cmi : %.mli
 	ocamlc -c $<
@@ -68,7 +64,7 @@ parser.ml parser.mli: parser.mly
 # Clean up the directory
 clean::
 	rm -rf lexer.ml parser.ml parser.mli *.o *.cmo *.cmi parser.output \
-	   f f.exe TAGS *~ *.bak
+	   main main.exe TAGS *~ *.bak parser.automaton parser.conflicts result.txt
 
 # Rebuild intermodule dependencies
 depend:: $(DEPEND) 
