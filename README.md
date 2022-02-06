@@ -6,10 +6,7 @@ Wykonane elementy w projekcie: lekser, parser, normalizacja termów, implementac
 
 ## Uruchomienie
 ```sh
-    make depend
-```
-```sh
-    make
+    bash setup.sh
 ```
 ```sh
     ./main
@@ -21,6 +18,11 @@ Podając JEDEN argument - ścieżkę do pliku - program uruchomi normalizację.
 Podając DWA argumenty - ścieżki do plików - program odczyta z nich termy i sprawdzi ich Beta-równownoważność.
 
 Wynik zostanie umieszczony w pliku `result.txt`, a dodatkowe informacje na standardowe wyjście.
+
+### Czyszczenie plików
+```
+    make clean
+```
 
 ## Testowanie
 Uruchom testy:
