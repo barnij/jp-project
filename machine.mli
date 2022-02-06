@@ -10,5 +10,6 @@ val makeFreeVars : string -> term -> int -> term
 val backVars : string -> term -> int -> term
 val getDummyEnv : mvalue env -> mvalue env
 val getUndummyEnv : mvalue env -> mvalue env
-val eval_normal : term -> term * mvalue env * stack
+val eval_normal : term -> term
 val printer : term -> mvalue env -> stack -> string -> unit
+val compare_terms : term -> term -> bool

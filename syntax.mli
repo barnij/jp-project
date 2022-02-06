@@ -37,9 +37,7 @@ type 'a env = 'a list
 type mvalue =
   | Clo of term * mvalue env
 
-type stack =
-  | E_mt
-  | E_arg of term * mvalue env * stack
+type stack = (term * mvalue env) list
 
 (* Sugar syntax *)
 val ctrue : term

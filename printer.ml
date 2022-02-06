@@ -52,12 +52,8 @@ print_env_list (e1: mvalue env) =
 
 let print_stack (ss: stack) =
   let rec print s =
-    ps "{";
     match s with
-    | E_mt -> pc '}'
-    | E_arg(t1, e, s1) -> (pretty_printer t1; print_env_list e; pc '}';
-      match s1 with
-      | E_mt -> ()
-      | _    -> ps " | "; print s1
-  ) in
+    | [] -> ()
+    | (t1,e)::s1 -> pretty_printer t1; print_env_list e; if s1=[] then () else ps " | "; print s1
+  in
   pc '{'; print ss; pc '}'

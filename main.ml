@@ -7,7 +7,9 @@ open Printer
 open Machine
 
 let rec remove_sugar (t: term) : term = match t with
-  | TmNum(n)   -> cnum n
+  | TmNum(n)      -> cnum n
+  | TmApp(t1, t2) -> TmApp(remove_sugar t1, remove_sugar t2)
+  | TmAbs(x, t1)     -> TmAbs(x, remove_sugar t1)
   | TmAdd(t1,t2) -> app_helper2 cadd (remove_sugar t1) (remove_sugar t2)
   | TmMul(t1,t2) -> app_helper2 cmul (remove_sugar t1) (remove_sugar t2)
   | TmSub(t1,t2) -> app_helper2 csub (remove_sugar t1) (remove_sugar t2)
@@ -15,7 +17,7 @@ let rec remove_sugar (t: term) : term = match t with
   | TmTrue -> ctrue
   | TmFalse -> cfalse
   | TmIf(t1, t2, t3) -> app_helper3 cif
-                        (remove_sugar t1) (remove_sugar t2)(remove_sugar t3)
+                        (remove_sugar t1) (remove_sugar t2) (remove_sugar t3)
   | TmFix(t1) -> app_helper1 fix (remove_sugar t1)
   | TmPair(t1, t2) -> app_helper2 pair (remove_sugar t1) (remove_sugar t2)
   | TmFst(t1) -> app_helper1 pair_fst (remove_sugar t1)
@@ -48,14 +50,32 @@ let main () =
     then open_in Sys.argv.(1)
     else stdin
   in
+  let cin2m =
+    if Array.length Sys.argv > 2
+    then Some(open_in Sys.argv.(2))
+    else None
+  in
   let lexbuf = Lexing.from_channel cin in
     let raw_res = try Parser.toplevel Lexer.main lexbuf
-    with Parsing.Parse_error -> print_string "Parse error"; failwith "Parser error"
-    in pretty_printer raw_res; pc '\n';
+    with Parsing.Parse_error -> print_string "Parse error"; failwith "Parser error" in
     let desugar_res = remove_sugar raw_res in
-    pretty_printer desugar_res; pc '\n';
     let res = remove_names desugar_res in
-    pretty_printer res; pc '\n';
-    let (wt1, _, _) = eval_normal res in pretty_printer wt1; pc '\n'
+    let wt1 = eval_normal res in
+    match cin2m with
+    | None ->
+      ps "raw: "; pretty_printer raw_res; pc '\n';
+      ps "wihout sugar: "; pretty_printer desugar_res; pc '\n';
+      ps "new indexes: ";pretty_printer res; pc '\n';
+      ps "result: "; pretty_printer wt1; pc '\n'
+    | Some(cin2) ->
+      let lexbuf2 = Lexing.from_channel cin2 in
+      let raw_res2 = try Parser.toplevel Lexer.main lexbuf2
+        with Parsing.Parse_error -> print_string "Parse error2"; failwith "Parser error2"
+      in let wt2 = eval_normal (remove_names (remove_sugar raw_res2)) in
+      ps "result 1: "; pretty_printer wt1 ; pc '\n';
+      ps "result 2: "; pretty_printer wt2 ; pc '\n';
+      if compare_terms wt1 wt2 then
+        ps "terms are Beta-equal\n"
+      else ps "terms are different\n"
 
 let _ = main ()
